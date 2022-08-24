@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+
+    <title>Document</title>
+
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        color: rgb(73, 69, 69);
+        font-family: 'Roboto Condensed', sans-serif;
+        width: 100vw;
+        min-height: 100vh;
+        background:linear-gradient(90deg , #e9b7ce 20%  , #d3f3f1 80%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .heading {
+        font-size: 2rem;
+      }
+
+      .mainForm {
+        display: flex;
+        /* flex-direction: column; */
+        justify-content: space-evenly;
+      }
+
+      .mainForm * {
+        /* border: 0; */
+        border-radius: 5px;
+        outline: 0;
+        margin: 1rem;
+        height: 2rem;
+        width: 20vw;
+        font-size: 1rem;
+      }
+      button {
+        width: 10vw;
+        background-color: rgb(64, 187, 196);
+      }
+
+      .displayContainer {
+        width: 70vw;
+        min-height: 50vh;
+        border: 2px black solid;
+        color: rgb(73, 69, 69);
+        display: flex;
+        flex-direction: column;
+        align-items: center;  
+      }
+      .taskContainer{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 100%;
+        margin: 1rem;
+      }
+
+      .checkBox:checked + .taskHeading{
+        text-decoration: line-through;
+        text-decoration-color: rgb(67, 192, 214);
+      }
+
+      .taskHeading{
+        width: 80%;
+      }
+
+      .deleteIcon{
+        font-size: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="heading">
+      <h1>ANY DO</h1>
+    </div>
+    <div class="container">
+      <form action="/" method="post" class="mainForm">
+        <input
+          type="text"
+          name="task"
+          id="taskInput"
+          placeholder="Agenda"
+        />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+    <div class="displayContainer">
+      <% for(let i = 0 ; i < taskArray.length ; i++){ %>
+      <div class="taskContainer">
+        <input type="checkbox" class="checkBox">
+        <h2 class="taskHeading" index = <%= i %>  ><%= taskArray[i].task %></h2>
+        <ion-icon name="trash-outline" class="deleteIcon" index = <%= i %> ></ion-icon>
+      </div>
+      <% } %>
+    </div>
+    <script>
+      let deleteBtns = document.querySelectorAll('.deleteIcon');
+      let tasks = document.querySelectorAll('.taskHeading')
+      let body = document.querySelector('body')
+      deleteBtns.forEach(btn => {
+        btn.addEventListener('click', async ()=>{
+          const form = document.createElement('form');
+          const idx = btn.getAttribute('index');
+          form.setAttribute("action" , `/${tasks[idx].innerText}`);
+          form.setAttribute('method' , 'post');
+          body.appendChild(form)
+          form.submit();
+        })
+      })
+    </script>
+  </body>
+</html>
